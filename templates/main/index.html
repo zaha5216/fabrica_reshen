@@ -1,0 +1,39 @@
+
+{% extends "layout/basic.html" %}
+
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}{{ bb }}{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+
+{% block content %}
+
+
+{% if bbs %}
+<ul class="list-unstyled">
+    {% for bb in bbs %}
+    <li class="media my-5 p-3 border">
+        <a href="{% url 'main:detail' rubric_pk=bb.pk pk=bb.pk as url %}">
+        {% if bb.image %}
+        <img class="mr-3" src="{% thumbnail bb.image 'default' %}">
+        {% else %}
+        <img class="mr-3" src="{% static 'main/empty.jpg' %}">
+        {% endif %}
+        </a>
+        <div class="media-body">
+            <h3><a href="{{ url }}{{ all }}">
+            {{ bb.title }}</a></h3>
+            <div>{{ bb.context }}</div>
+            <p class="text-right font-italic">{{ bb.created_at }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{#{% bootstrap_pagination page url=keyword %}#}
+{% endif %}
+{% endblock %}
+
